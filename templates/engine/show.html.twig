@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Engine{% endblock %}
+
+{% block body %}
+    <h1>Engine</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Name</th>
+                <td>{{ engine.name }}</td>
+            </tr>
+            <tr>
+                <th>Capacity</th>
+                <td>{{ (engine.capacity/1000)|number_format(1, '.', ' ') }} L</td>
+            </tr>
+            <tr>
+                <th>Horsepower</th>
+                <td>{{ engine.horsepower }}</td>
+            </tr>
+            <tr>
+                <th>Torque</th>
+                <td>{{ engine.torque }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="container row">
+
+    <h5>Cars with that engine:</h5>
+    {% for car in engine.cars %}
+        <div class="col-2">
+            <a href="{{ path('car_show', {id: car.id}) }}" class="btn btn-dark m-2">
+                {{ car.make }}
+            </a>
+        </div>
+    {% endfor %}
+    </div>
+
+
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('engine_edit', {'id': engine.id}) }}" class="btn btn-warning">Edit</a>
+
+        {{ include('engine/_delete_form.html.twig') }}
+    {% endif %}
+    <a href="{{ path('engine_index') }}" class="btn btn-outline-secondary">Back to list</a>
+
+
+{% endblock %}

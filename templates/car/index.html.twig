@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Car index{% endblock %}
+
+{% block body %}
+    <h1>Car index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Make</th>
+                <th>BodyType</th>
+                <th>Color</th>
+                <th>Year</th>
+                <th>Mileage</th>
+                <th>FuelType</th>
+                <th>Status</th>
+                <th>Price</th>
+                <th>Country</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for car in cars %}
+            <tr>
+                <td>{{ car.id }}</td>
+                <td>{{ car.make }}</td>
+                <td>{{ car.bodyType }}</td>
+                <td>{{ car.color }}</td>
+                <td>{{ car.year ? car.year|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ car.mileage }}</td>
+                <td>{{ car.fuelType }}</td>
+                <td>{{ car.status }}</td>
+                <td>{{ car.price }}</td>
+                <td>{{ car.country }}</td>
+                <td>{{ car.description }}</td>
+                <td>
+                    <a href="{{ path('car_show', {'id': car.id}) }}">show</a>
+                    {% if is_granted("ROLE_ADMIN") %}
+                        <a href="{{ path('car_edit', {'id': car.id}) }}">edit</a>
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('car_new') }}">Create new</a>
+{% endblock %}

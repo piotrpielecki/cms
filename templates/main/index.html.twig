@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Homepage{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .card-img-top{
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+
+    <div class="container mb-5">
+        <h1>
+            Search with filters here
+        </h1>
+        <form method="post" class="form-control">
+            <div class="mb-3 form-group">
+                <label for="search" class="form-label">Search</label>
+                <input type="text" class="form-control" id="search" name="search" placeholder="Search for...">
+            </div>
+            <div class="mb-3 form-group">
+                <select name="filterBy" class="form-select" aria-label="Filter">
+                    <option disabled selected>Filter By</option>
+                    <option value="touring">Touring</option>
+                    <option value="sedan">Sedan</option>
+                    <option value="coupe">Coupe</option>
+                    <option value="van">Van</option>
+                </select>
+            </div>
+            <div class="mb-3 form-group">
+                <select name="sortBy" class="form-select" aria-label="Sorting">
+                    <option disabled selected>Sorting</option>
+                    <option value="price_up">Price Up</option>
+                    <option value="price_down">Price Down</option>
+                    <option value="name_up">Name Up</option>
+                    <option value="name_down">Name Down</option>
+                </select>
+            </div>
+            <input type="submit" class="btn btn-primary" value="Search">
+        </form>
+    </div>
+
+
+
+    <div class="container">
+        <div class="row">
+            {% for car in carList %}
+                <div class="card col-2 m-3">
+                    <img src="
+                    {{ asset('uploads/photos/') }}{{ car.photoName ? car.photoName : 'no-image-found.png' }}"
+                         class="card-img-top" alt="No image found...">
+
+                    <div class="card-body">
+                        <h5 class="card-title">{{ car.make }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{ car.price/100 }} PLN</h6>
+                        <a href="{{ path('car_show', {id: car.id}) }}" class="btn btn-primary">Show</a>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
