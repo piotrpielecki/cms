@@ -21,7 +21,7 @@
             <tr>
                 <td>{{ engine.id }}</td>
                 <td>{{ engine.name }}</td>
-                <td>{{ engine.capacity }}</td>
+                <td>{{ (engine.capacity/1000)|number_format(1, '.', ' ') }} L</td>
                 <td>{{ engine.horsepower }}</td>
                 <td>{{ engine.torque }}</td>
                 <td>

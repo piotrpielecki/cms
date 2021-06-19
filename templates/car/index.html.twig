@@ -30,10 +30,10 @@
                 <td>{{ car.bodyType }}</td>
                 <td>{{ car.color }}</td>
                 <td>{{ car.year ? car.year|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ car.mileage }}</td>
+                <td>{{ car.mileage|number_format(0, '.', ' ') }} km</td>
                 <td>{{ car.fuelType }}</td>
                 <td>{{ car.status }}</td>
-                <td>{{ car.price }}</td>
+                <td>{{ car.price/100|number_format(2, '.', ' ') }} PLN</td>
                 <td>{{ car.country }}</td>
                 <td>{{ car.description }}</td>
                 <td>
