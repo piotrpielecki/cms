@@ -58,7 +58,6 @@ class CarController extends AbstractController
                     );
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
-                    dump('wysrało się');exit;
                 }
 
                 // updates the 'brochureFilename' property to store the PDF file name
