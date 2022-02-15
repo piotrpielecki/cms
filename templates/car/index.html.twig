@@ -9,12 +9,21 @@
         <a href="{{ path('car_show', {id: car.id}) }}">
             <div class="card mb-3">
                 <div class="row g-0">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {% if car.isAccepted %}
+                            <div class="col-sm-1 carAccepted" data-id="{{ car.id }}">
+                            </div>
+                        {% else %}
+                            <div class="col-sm-1 carNotAccepted" data-id="{{ car.id }}">
+                            </div>
+                        {% endif %}
+                    {% endif %}
                     <div class="col-md-4">
                         <img style="width: 300px!important;"
                              src="{{ asset('uploads/photos/') }}{{ car.photoName ? car.photoName : 'no-image-found.png' }}"
                              alt="...">
                     </div>
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <div class="card-body">
                             <h5 class="card-title">{{ car.make }}</h5>
                             <p class="card-text">{{ car.description }}</p>

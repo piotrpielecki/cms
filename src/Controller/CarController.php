@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Car;
 use App\Form\CarType;
 use App\Repository\CarRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,8 +26,13 @@ class CarController extends AbstractController
      */
     public function index(CarRepository $carRepository): Response
     {
+        if ($this->isGranted("ROLE_ADMIN")) {
+            $cars = $carRepository->findAll();
+        } else {
+            $cars = $carRepository->getAvailableCars();
+        }
         return $this->render('car/index.html.twig', [
-            'cars' => $carRepository->findAll(),
+            'cars' => $cars,
         ]);
     }
 
@@ -64,6 +71,12 @@ class CarController extends AbstractController
                 // instead of its contents
                 $car->setPhotoName($newFilename);
             }
+            if ($this->isGranted('ROLE_ADMIN')) {
+                $car->setIsAccepted(true);
+            } else {
+                $car->setIsAccepted(false);
+            }
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($car);
@@ -122,5 +135,28 @@ class CarController extends AbstractController
         }
 
         return $this->redirectToRoute('car_index');
+    }
+
+
+    /**
+     * @Route("/ajax/toogleConfirm", name="car_toogle_confirm", methods={"POST"})
+     * @Security("is_granted('ROLE_ADMIN')")
+     */
+    public function toogleConfirm(Request $request, CarRepository $carRepository, EntityManagerInterface $em): Response
+    {
+
+        $car = $carRepository->find($request->request->get('carId'));
+        if ($car->getIsAccepted()) {
+            $car->setIsAccepted(false);
+            $setTo = false;
+        } else {
+            $car->setIsAccepted(true);
+            $setTo = true;
+        }
+
+        $em->persist($car);
+        $em->flush();
+
+        return new JsonResponse(['success' => true,'setTo' => $setTo]);
     }
 }

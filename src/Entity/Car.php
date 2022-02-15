@@ -78,6 +78,11 @@ class Car
      */
     private $photoName;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $isAccepted;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -223,6 +228,18 @@ class Car
     public function setPhotoName(?string $photoName): self
     {
         $this->photoName = $photoName;
+
+        return $this;
+    }
+
+    public function getIsAccepted(): ?bool
+    {
+        return $this->isAccepted;
+    }
+
+    public function setIsAccepted(bool $isAccepted): self
+    {
+        $this->isAccepted = $isAccepted;
 
         return $this;
     }

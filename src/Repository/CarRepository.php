@@ -19,6 +19,14 @@ class CarRepository extends ServiceEntityRepository
         parent::__construct($registry, Car::class);
     }
 
+    public function getAvailableCars()
+    {
+        return $this->createQueryBuilder('c')
+            ->where('c.isAccepted = true')
+            ->getQuery()
+            ->getResult();
+    }
+
     public function mySearch(array $criteria)
     {
         $search = isset($criteria["search"]) ? $criteria["search"] : null;
@@ -29,7 +37,7 @@ class CarRepository extends ServiceEntityRepository
 
         if ($search) {
             $listBuilder->andWhere('c.make LIKE :search')
-                ->setParameter('search', $search);
+                ->setParameter('search', "%".$search."%");
         }
 
         if ($filterBy) {
@@ -53,6 +61,7 @@ class CarRepository extends ServiceEntityRepository
                     break;
             }
         }
+        $listBuilder->andWhere('c.isAccepted = true');
 
         return $listBuilder->getQuery()->getResult();
     }

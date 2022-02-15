@@ -7,12 +7,13 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
 
-        {% block stylesheets %}
 
+        {% block stylesheets %}
+            <link href="{{ asset('css/main.css') }}" rel="stylesheet"></link>
         {% endblock %}
 
         {% block javascripts %}
-
+            <script src="{{ asset('js/script.js') }}"></script>
         {% endblock %}
     </head>
     <body>
@@ -41,6 +42,9 @@
                         Logout
                     </a>
                 {% else %}
+                    <a class="navbar-text btn btn-danger me-3" href="{{ path('app_register') }}">
+                        Register
+                    </a>
                     <a class="navbar-text btn btn-success" href="{{ path('app_login') }}">
                         Login
                     </a>

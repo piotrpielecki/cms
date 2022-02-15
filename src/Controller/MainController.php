@@ -38,7 +38,7 @@ class MainController extends AbstractController
         if ($request->getMethod() == "POST") {
             $results = $this->searchService->search($request->request->all());
         } else {
-            $results = $this->carRepository->findAll();
+            $results = $this->carRepository->getAvailableCars();
         }
 
 
