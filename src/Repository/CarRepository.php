@@ -23,6 +23,7 @@ class CarRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('c')
             ->where('c.isAccepted = true')
+            ->setMaxResults(5)
             ->getQuery()
             ->getResult();
     }
@@ -61,7 +62,8 @@ class CarRepository extends ServiceEntityRepository
                     break;
             }
         }
-        $listBuilder->andWhere('c.isAccepted = true');
+        $listBuilder->andWhere('c.isAccepted = true')
+        ->setMaxResults(5);
 
         return $listBuilder->getQuery()->getResult();
     }
